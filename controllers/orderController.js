@@ -1,6 +1,7 @@
 const orderService = require('../services/orderService')
 const userService = require('../services/userService');
 const itemService = require('../services/itemService');
+const Order = require('../models/Order')
 
 exports.createOrder = async(req,res) => {
     try {
@@ -51,6 +52,20 @@ exports.updateDelivery = async(req,res) => {
                 })
             }
         }
+    } catch (error) {
+        console.log(error);
+        res.status(500).send("Server Error");
+    }
+}
+
+exports.mySales = async(req,res) => {
+    try {
+        const user = req.user;
+        const data = await Order.find({sellerId: user.id}).populate("itemId");
+        return res.status(200).json({
+            message:"Sales Data",
+            data:data
+        })
     } catch (error) {
         console.log(error);
         res.status(500).send("Server Error");
