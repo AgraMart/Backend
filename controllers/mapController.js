@@ -15,6 +15,10 @@ exports.mapNearby = async (req, res) => {
           const sellerAddress = await User.findById(sellerId,{address:1});
           const buyerAddress = await User.findById(buyerId,{address:1});
 
+          if(!sellerAddress && !buyerAddress) return res.status(400).json({
+            message:"Error fetching user"
+          })
+
           let map_poly = await axios.get(`https://maps.googleapis.com/maps/api/directions/json?origin=${buyerAddress.address}&destination=${sellerAddress.address}&sensor=false&mode=car&key=AIzaSyBtygbeWna36e0chLf0XRZjXINgjen8zAw`)
 
           console.log(map_poly)
