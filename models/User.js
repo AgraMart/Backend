@@ -20,6 +20,9 @@ const UserSchema = new Schema({
     dob:{
         type:String
     },
+    address:{
+      type:String  
+    },
     userType:{
         type: String,
         enum : ['Buyer','Seller'],

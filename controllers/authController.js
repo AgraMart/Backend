@@ -163,7 +163,13 @@ exports.authPass = async (req,res,next) => {
     // 3) Check if user still exists
     console.log(decoded);
     try{
-        const currentUser = await User.findById(decoded.id).populate("ordersListed").populate("productsListed")
+        const currentUser = await User.findById(decoded.id).populate("productsListed").populate({
+            path: "ordersListed",
+            populate: [{
+                path: "itemId",
+                model: "Item"
+            }]
+        })
     
     
         // 4) Check if user changed password after the token was issued
